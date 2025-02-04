@@ -5,8 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script src="scripts.js" defer></script>
 </head>
-<body>
-    
-</body>
+    <table class="book-list-table">
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Pages</th>
+            <th>Read</th>
+        </tr>
+    </table>
+
+<form action="" method="get" class="form-template">
+    <section>
+        <label for="author">Book Author's name</label>
+        <input id="author" name="author" type="text" placeholder="Stephen King">
+    </section>
+    <section>
+        <label for="title">Book's title</label>
+        <input id="title" name="title" type="text" placeholder="The Shining">
+    </section>
+    <section>
+        <label for="pages">Number of pages in the Book</label>
+        <input id="pages" name="pages" type="text" placeholder="1138">
+    </section>
+    <section>
+        <label for="read">Check if you've read this book</label>
+        <input id="read" name="read" type="checkbox">
+    </section>
+    <section>
+        <button type="button" class="book-submit">Enter book to list</button>
+    </section>
+</form>
 </html>

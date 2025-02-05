@@ -15,22 +15,37 @@ function addBookToLibrary(author, title, pages, read=false) {
 const bookListTable = document.querySelector(".book-list-table");
 
 function displayLibrary() {
+    clearTable()
     myLibrary.forEach((book, index) => {
         const tableRow = document.createElement("tr");
         Object.keys(book).forEach(key => {
-            const tableData = document.createElement("td");
+            let tableData = document.createElement("td");
             tableData.textContent = book[key];
             tableRow.appendChild(tableData);
         })
         tableRow.setAttribute("data-index", index);
 
-        let button1 = document.createElement("button");
-        button1.classList.add("read-button")
-        tableRow.appendChild(button1)
+        let readButton = document.createElement("button");
+        let tableData = document.createElement("td")
+        readButton.textContent = "Toggle Read"
+        readButton.addEventListener("click", () => {
+            state = myLibrary[index].read;
+            state = !state;
+            myLibrary[index].read = state ? true : false;
+            displayLibrary()
+        })
+        tableData.appendChild(readButton)
+        tableRow.appendChild(tableData)
 
-        let button2 = document.createElement("button");
-        button2.classList.add("delete-button")
-        tableRow.appendChild(button2)
+        let delButton = document.createElement("button");
+        let tableData2 = document.createElement("td")
+        delButton.textContent = "Delete"
+        delButton.addEventListener("click", () => {
+            myLibrary.splice(index, 1);
+            displayLibrary();
+        })
+        tableData2.appendChild(delButton)
+        tableRow.appendChild(tableData2)
 
         bookListTable.appendChild(tableRow);
     })
@@ -43,30 +58,6 @@ function clearTable() {
     })
 } 
 
-function deleteButton() {
-    const deleteBtn = document.querySelectorAll(".delete-button");
-    deleteBtn.forEach(button => {
-        button.addEventListener("click", (event) => {
-            let parentElem = event.target.parentElement;
-            parentElem.remove()
-            let parentIndex = parentElem.dataset.index;
-            myLibrary.splice(parentIndex, 1)
-        })
-    })
-}
-
-function readToggle() {
-    const readBtn = document.querySelectorAll(".read-button");
-    readBtn.forEach(button => {
-        button.addEventListener("click", (event) => {
-            console.log("test")
-            let parentElem = event.target.parentElement;
-            let parentIndex = parentElem.dataset.index;
-            myLibrary[parentIndex].read = true; 
-        })
-    })
-}
-
 const bookSubmit = document.querySelector(".book-submit");
 
 bookSubmit.addEventListener("click", () => {
@@ -74,9 +65,11 @@ bookSubmit.addEventListener("click", () => {
     const title = document.querySelector("#title");
     const pages = document.querySelector("#pages");
     const read = document.querySelector("#read");
+    if (author.value && title.value && pages.value) {
     addBookToLibrary(author.value, title.value, pages.value, read.checked);
-    clearTable()
-    displayLibrary()
-    deleteButton()
-    readToggle()
+    displayLibrary()}
+    document.querySelector("#author").value = ""
+    document.querySelector("#title").value = ""
+    document.querySelector("#pages").value = ""
+    document.querySelector("#read").checked = false
 })

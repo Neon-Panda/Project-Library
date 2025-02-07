@@ -1,75 +1,81 @@
-const myLibrary = [];
-
-function Book(author, title, pages, read=false) {
-    this.author = author;
-    this.title = title;
-    this.pages = pages;
-    this.read = read;
+class Book {
+    constructor(author, title, pages, read=false) {
+        this.author = author;
+        this.title = title;
+        this.pages = pages;
+        this.read = read;
+    }
 }
 
-function addBookToLibrary(author, title, pages, read=false) {
-    const book = new Book(author, title, pages, read);
-    myLibrary.push(book)
-}
+class UI {
+    static displayBooks() {
+        const storedBooks = [
+            {
+            author: `Stephen King`,
+            title: `The Shining`,
+            pages: 1138,
+            read: true
+            },
+             {
+             author: `Author Example`,
+             title: `Title Example`,
+             pages: 1234,
+             read: true,
+             }
+        ];
 
-const bookListTable = document.querySelector(".book-list-table");
+        const books = storedBooks;
+        books.forEach((book) => UI.addBook(book));
+    }
 
-function displayLibrary() {
-    clearTable()
-    myLibrary.forEach((book, index) => {
-        const tableRow = document.createElement("tr");
-        Object.keys(book).forEach(key => {
-            let tableData = document.createElement("td");
-            tableData.textContent = book[key];
-            tableRow.appendChild(tableData);
-        })
-        tableRow.setAttribute("data-index", index);
+    static addBook(book) {
+        const tableBody = document.querySelector("[data-table-body]")
 
-        let readButton = document.createElement("button");
-        let tableData = document.createElement("td")
-        readButton.textContent = "Toggle Read"
-        readButton.addEventListener("click", () => {
-            state = myLibrary[index].read;
-            state = !state;
-            myLibrary[index].read = state ? true : false;
-            displayLibrary()
-        })
-        tableData.appendChild(readButton)
-        tableRow.appendChild(tableData)
+        const row = document.createElement("tr");
 
-        let delButton = document.createElement("button");
-        let tableData2 = document.createElement("td")
-        delButton.textContent = "Delete"
-        delButton.addEventListener("click", () => {
-            myLibrary.splice(index, 1);
-            displayLibrary();
-        })
-        tableData2.appendChild(delButton)
-        tableRow.appendChild(tableData2)
+        row.innerHTML = `
+        <td>${book.author}</td>
+        <td>${book.title}</td>
+        <td>${book.pages}</td>
+        <td>${book.read}</td>
+        <td><button data-read></button></td>
+        <td><button data-delete></button></td>
+        `
 
-        bookListTable.appendChild(tableRow);
-    })
-}
+        tableBody.appendChild(row)
+    }
 
-function clearTable() {
-    const rowsToRemove = bookListTable.querySelectorAll("[data-index]");
-    rowsToRemove.forEach(row => {
-        bookListTable.removeChild(row)
-    })
-} 
+    static clearInputs() {
+        document.querySelector("#author").value = ""
+        document.querySelector("#title").value = ""
+        document.querySelector("#pages").value = ""
+        document.querySelector("#read").checked = false
+    }
 
-const bookSubmit = document.querySelector(".book-submit");
+    static deleteBook(element) {
+        if(element.hasAttribute("data-delete")) {
+            element.parentElement.parentElement.remove()
+        }
+    }
+ }
 
-bookSubmit.addEventListener("click", () => {
-    const author = document.querySelector("#author");
-    const title = document.querySelector("#title");
-    const pages = document.querySelector("#pages");
-    const read = document.querySelector("#read");
-    if (author.value && title.value && pages.value) {
-    addBookToLibrary(author.value, title.value, pages.value, read.checked);
-    displayLibrary()}
-    document.querySelector("#author").value = ""
-    document.querySelector("#title").value = ""
-    document.querySelector("#pages").value = ""
-    document.querySelector("#read").checked = false
+
+document.addEventListener("DOMContentLoaded", UI.displayBooks)
+
+document.querySelector("[data-form]").addEventListener("submit", event => {
+    event.preventDefault()
+
+    const author = document.querySelector("#author").value;
+    const title = document.querySelector("#title").value;
+    const pages = document.querySelector("#pages").value;
+    const read = document.querySelector("#read").checked;
+
+    const book = new Book(author, title, pages, read)
+
+    UI.addBook(book)
+    UI.clearInputs()
+})
+
+document.querySelector("[data-table-body]").addEventListener("click", (event) => {
+    UI.deleteBook(event.target)
 })

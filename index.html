@@ -9,10 +9,10 @@
 </head>
 <body>
     <main class="container">
-        <form action="" method="get" class="form-template">
+        <form action="" method="get" class="form-template" data-form>
             <section>
                 <label for="author">Book Author's name</label>
-                <input id="author" name="author" type="text" placeholder="Stephen King">
+                <input id="author" name="author" type="text" placeholder="Stephen King" required>
             </section>
             <section>
                 <label for="title">Book's title</label>
@@ -20,26 +20,31 @@
             </section>
             <section>
                 <label for="pages">Number of pages in the Book</label>
-                <input id="pages" name="pages" type="text" placeholder="1138">
+                <input id="pages" name="pages" type="number" placeholder="1138" required min="1">
             </section>
             <section>
                 <label for="read">Check if you've read this book</label>
                 <input id="read" name="read" type="checkbox">
             </section>
             <section>
-                <button type="button" class="book-submit">Enter book to list</button>
+                <button type="submit" class="book-submit">Enter book to list</button>
             </section>
         </form>
 
         <table class="book-list-table">
-            <tr>
-                <th>Author</th>
-                <th>Title</th>
-                <th>Pages</th>
-                <th>Read</th>
-                <th>Toggle read</th>
-                <th>Delete book</th>
-            </tr>
+            <th>
+                <tr>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Pages</th>
+                    <th>Read</th>
+                    <th>Toggle read</th>
+                    <th>Delete book</th>
+                </tr>
+            </th>
+            <tbody data-table-body>
+
+            </tbody>
         </table>
     </main>
 </body>

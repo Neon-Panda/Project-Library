@@ -8,8 +8,8 @@ class Book {
 }
 
 class UI {
-    static displayBooks() {
-        const storedBooks = [
+    static exampleBooks() {
+        const books = [
             {
             author: `Stephen King`,
             title: `The Shining`,
@@ -24,21 +24,20 @@ class UI {
              }
         ];
 
-        const books = storedBooks;
         books.forEach((book) => UI.addBook(book));
     }
 
     static addBook(book) {
         const tableBody = document.querySelector("[data-table-body]")
-
+        const readStatus = book.read === true ? "Read" : "Not read"
         const row = document.createElement("tr");
 
         row.innerHTML = `
         <td>${book.author}</td>
         <td>${book.title}</td>
         <td>${book.pages}</td>
-        <td>${book.read}</td>
-        <td><button data-read></button></td>
+        <td data-read>${readStatus}</td>
+        <td><button data-toggle-Read></button></td>
         <td><button data-delete></button></td>
         `
 
@@ -56,11 +55,21 @@ class UI {
         if(element.hasAttribute("data-delete")) {
             element.parentElement.parentElement.remove()
         }
+    
+    }
+
+    static toggleRead(element) {
+        if (element.hasAttribute("data-toggle-Read")) {
+            const row = element.parentElement.parentElement
+            const readElement = row.querySelector("[data-read]")
+            const statusToggle = readElement.textContent === "Read" ? "Not read" : "Read"
+            readElement.textContent = statusToggle
+        }
     }
  }
 
 
-document.addEventListener("DOMContentLoaded", UI.displayBooks)
+document.addEventListener("DOMContentLoaded", UI.exampleBooks())
 
 document.querySelector("[data-form]").addEventListener("submit", event => {
     event.preventDefault()
@@ -78,4 +87,5 @@ document.querySelector("[data-form]").addEventListener("submit", event => {
 
 document.querySelector("[data-table-body]").addEventListener("click", (event) => {
     UI.deleteBook(event.target)
+    UI.toggleRead(event.target)
 })

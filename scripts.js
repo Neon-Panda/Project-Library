@@ -36,8 +36,7 @@ class UI {
         <td>${book.author}</td>
         <td>${book.title}</td>
         <td>${book.pages}</td>
-        <td data-read>${readStatus}</td>
-        <td><button data-toggle-Read>Toggle</button></td>
+        <td><button data-toggle-Read>${readStatus}</button></td>
         <td><button data-delete>Delete</button></td>
         `
 
@@ -60,10 +59,8 @@ class UI {
 
     static toggleRead(element) {
         if (element.hasAttribute("data-toggle-Read")) {
-            const row = element.parentElement.parentElement
-            const readElement = row.querySelector("[data-read]")
-            const statusToggle = readElement.textContent === "Read" ? "Not read" : "Read"
-            readElement.textContent = statusToggle
+            const statusToggle = element.textContent === "Read" ? "Not read" : "Read"
+            element.textContent = statusToggle
         }
     }
  }

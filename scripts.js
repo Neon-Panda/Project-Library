@@ -37,8 +37,8 @@ class UI {
         <td>${book.title}</td>
         <td>${book.pages}</td>
         <td data-read>${readStatus}</td>
-        <td><button data-toggle-Read></button></td>
-        <td><button data-delete></button></td>
+        <td><button data-toggle-Read>Toggle</button></td>
+        <td><button data-delete>Delete</button></td>
         `
 
         tableBody.appendChild(row)
